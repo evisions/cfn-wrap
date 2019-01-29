@@ -43,7 +43,7 @@ const wrapCloudformationTemplate = (inputTemplate, inputTemplatePath, params) =>
     Parameters: inputParameters,
     Resources: {
       ReferenceStack: {
-        Type: 'Type: AWS::CloudFormation::Stack',
+        Type: 'AWS::CloudFormation::Stack',
         Properties: {
           TemplateURL: inputTemplatePath,
           Parameters: stackParameters,
