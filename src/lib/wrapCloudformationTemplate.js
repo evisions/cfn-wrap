@@ -17,9 +17,17 @@ const wrapCloudformationTemplate = (inputTemplate, inputTemplatePath, params) =>
   // inserted
   const stackParameters = {};
   allParameterNames.forEach(name => {
+    const type = inputTemplate.Parameters[name].Type;
     const hardcodedParameter = params.find(p => p.name === name);
     if (hardcodedParameter) {
       stackParameters[name] = hardcodedParameter.value;
+    } else if (type.includes('List')) {
+      stackParameters[name] = {
+        'Fn::Join': [
+          ',',
+          { Ref: name },
+        ],
+      };
     } else {
       stackParameters[name] = { Ref: name };
     }
