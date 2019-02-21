@@ -38,11 +38,13 @@ const wrapCloudformationTemplate = (inputTemplate, inputTemplatePath, params) =>
   const templateOutputs = {};
   allOutputNames.forEach(name => {
     templateOutputs[name] = {
-      Description: inputTemplate.Outputs[name].Description,
       Value: {
         'Fn::GetAtt': `ReferenceStack.Outputs.${name}`,
       },
     };
+    if (inputTemplate.Outputs[name].Description) {
+      templateOutputs[name].Description = inputTemplate.Outputs[name].Description;
+    }
   });
 
   const outputTemplate = {
